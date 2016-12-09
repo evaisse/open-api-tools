@@ -1,0 +1,22 @@
+{
+    "name": "evaisse/open-api-tools",
+    "description": "A set of OpenApi Swagger 2.0",
+    "keywords": ["open-api", "swagger", "rest", "api", "json-schema"],
+    "homepage": "https://github.com/evaisse/open-api-tools",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Emmanuel VAISSE",
+            "email": "evaisse@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":{
+        "psr-4":{
+            "OpenApi\\": "src\\OpenApi"
+        }
+    },
+    "require": {
+    }
+}
