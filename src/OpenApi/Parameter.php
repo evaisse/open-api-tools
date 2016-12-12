@@ -13,4 +13,8 @@ namespace OpenApi;
 class Parameter
 {
 
+    protected $name
+
+
+
 }

@@ -1,47 +1,56 @@
 <?php
 /**
  * User: evaisse
- * Date: 08/12/2016
- * Time: 17:48
+ * Date: 12/12/2016
+ * Time: 10:59
  */
 namespace OpenApi;
 
 /**
- * Class ResponsesDefinitionsCollection
+ * Class ResponseExamples
  * @package OpenApi
  */
-class ResponsesDefinitionsCollection implements \JsonSerializable
+class ResponseExamples implements \JsonSerializable
 {
 
     /**
-     * @var ResponseDefinition[]
+     * @var ResponseExample[]
      */
     protected $items = [];
 
+
     /**
-     * @param ResponseDefinition $definition
+     * @param ResponseExample[] $items
+     */
+    function __construct(array $items = [])
+    {
+        foreach ($items as $i) {
+            $this->set($i);
+        }
+    }
+
+    /**
+     * @param ResponseExample $definition
      * @return self
      */
-    public function set(ResponseDefinition $definition)
+    public function set(ResponseExample $definition)
     {
-        $key = (string)$definition->getName();
+        $key = (string)$definition->getContentType();
         $this->items[$key] = $definition;
         return $this;
     }
 
-
     /**
      * @param string $key
-     * @return ResponseDefinition|null
+     * @return ResponseExample|null
      */
     public function get($key)
     {
         return array_key_exists($key, $this->items) ? $this->items[$key] : null;
     }
 
-
     /**
-     * @return ResponseDefinition[]
+     * @return ResponseExample[]
      */
     public function all()
     {

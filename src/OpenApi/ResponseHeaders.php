@@ -1,28 +1,39 @@
 <?php
 /**
  * User: evaisse
- * Date: 08/12/2016
- * Time: 17:48
+ * Date: 12/12/2016
+ * Time: 10:55
  */
 namespace OpenApi;
 
 /**
- * Class ResponsesDefinitionsCollection
+ * Class ResponseHeaders
  * @package OpenApi
  */
-class ResponsesDefinitionsCollection implements \JsonSerializable
+class ResponseHeaders implements \JsonSerializable
 {
 
     /**
-     * @var ResponseDefinition[]
+     * @var HeaderItem[]
      */
     protected $items = [];
 
     /**
-     * @param ResponseDefinition $definition
+     * @param HeaderItem[] $items
+     */
+    function __construct(array $items = [])
+    {
+        foreach ($items as $i) {
+            $this->set($i);
+        }
+    }
+
+
+    /**
+     * @param HeaderItem $definition
      * @return self
      */
-    public function set(ResponseDefinition $definition)
+    public function set(HeaderItem $definition)
     {
         $key = (string)$definition->getName();
         $this->items[$key] = $definition;
@@ -32,7 +43,7 @@ class ResponsesDefinitionsCollection implements \JsonSerializable
 
     /**
      * @param string $key
-     * @return ResponseDefinition|null
+     * @return HeaderItem|null
      */
     public function get($key)
     {
@@ -41,7 +52,7 @@ class ResponsesDefinitionsCollection implements \JsonSerializable
 
 
     /**
-     * @return ResponseDefinition[]
+     * @return HeaderItem[]
      */
     public function all()
     {
