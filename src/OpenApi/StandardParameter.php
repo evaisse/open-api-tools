@@ -2,15 +2,15 @@
 /**
  * User: evaisse
  * Date: 12/12/2016
- * Time: 10:38
+ * Time: 15:52
  */
 namespace OpenApi;
 
 /**
- * Class Header
+ * Class StandardParameter
  * @package OpenApi
  */
-class ItemObject implements \JsonSerializable
+abstract class StandardParameter extends Parameter
 {
     /**
      * @var	string	Required. The type of the object. The value MUST be one of "string", "number", "integer", "boolean", or "array".
@@ -24,12 +24,17 @@ class ItemObject implements \JsonSerializable
      * @var	Items Object	Required if type is "array". Describes the type of items in the array.
      */
     protected $items;
+
     /**
      * @var	string	Determines the format of the array if type array is used. Possible values are:
      *                 csv - comma separated values foo,bar.
      *                 ssv - space separated values foo bar.
      *                 tsv - tab separated values foo\tbar.
      *                 pipes - pipe separated values foo|bar.
+     *                 multi - corresponds to multiple parameter instances instead of
+     *                          multiple values for a single instance foo=bar&foo=baz.
+     *                          This is valid only for parameters in "query" or "formData".
+     *
      *              Default value is csv.
      */
     protected $collectionFormat = "csv";
@@ -87,20 +92,6 @@ class ItemObject implements \JsonSerializable
     protected $multipleOf;
 
     /**
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        $props = [];
-        foreach ($this as $k => $v) {
-            if ($v !== null) {
-                $props[$k] = $v;
-            }
-        }
-        return $props;
-    }
-
-    /**
      * @return number
      */
     public function getMultipleOf()
@@ -110,7 +101,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param number $multipleOf
-     * @return ItemObject
+     * @return Header
      */
     public function setMultipleOf($multipleOf)
     {
@@ -129,7 +120,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param string $type
-     * @return ItemObject
+     * @return Header
      */
     public function setType($type)
     {
@@ -148,7 +139,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param string $format
-     * @return ItemObject
+     * @return Header
      */
     public function setFormat($format)
     {
@@ -167,7 +158,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param Items $items
-     * @return ItemObject
+     * @return Header
      */
     public function setItems($items)
     {
@@ -186,7 +177,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param string $collectionFormat
-     * @return ItemObject
+     * @return Header
      */
     public function setCollectionFormat($collectionFormat)
     {
@@ -205,7 +196,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param mixed $default
-     * @return ItemObject
+     * @return Header
      */
     public function setDefault($default)
     {
@@ -224,7 +215,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param number $maximum
-     * @return ItemObject
+     * @return Header
      */
     public function setMaximum($maximum)
     {
@@ -243,7 +234,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param boolean $exclusiveMaximum
-     * @return ItemObject
+     * @return Header
      */
     public function setExclusiveMaximum($exclusiveMaximum)
     {
@@ -262,7 +253,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param number $minimum
-     * @return ItemObject
+     * @return Header
      */
     public function setMinimum($minimum)
     {
@@ -281,7 +272,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param boolean $exclusiveMinimum
-     * @return ItemObject
+     * @return Header
      */
     public function setExclusiveMinimum($exclusiveMinimum)
     {
@@ -300,7 +291,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param int $maxLength
-     * @return ItemObject
+     * @return Header
      */
     public function setMaxLength($maxLength)
     {
@@ -319,7 +310,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param int $minLength
-     * @return ItemObject
+     * @return Header
      */
     public function setMinLength($minLength)
     {
@@ -338,7 +329,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param string $pattern
-     * @return ItemObject
+     * @return Header
      */
     public function setPattern($pattern)
     {
@@ -357,7 +348,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param int $maxItems
-     * @return ItemObject
+     * @return Header
      */
     public function setMaxItems($maxItems)
     {
@@ -376,7 +367,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param int $minItems
-     * @return ItemObject
+     * @return Header
      */
     public function setMinItems($minItems)
     {
@@ -395,7 +386,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param boolean $uniqueItems
-     * @return ItemObject
+     * @return Header
      */
     public function setUniqueItems($uniqueItems)
     {
@@ -414,7 +405,7 @@ class ItemObject implements \JsonSerializable
 
     /**
      * @param \mixed[] $enum
-     * @return ItemObject
+     * @return Header
      */
     public function setEnum($enum)
     {
