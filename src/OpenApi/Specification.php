@@ -90,7 +90,6 @@ class Specification implements \JsonSerializable
         $this->securityDefinitions = new SecurityDefinitionsCollection(); // Security scheme definitions that can be used across the specification.
         $this->security = new ArrayList([], function ($item) { return $item instanceof SecurityRequirement; }); // A declaration of which security schemes are applied for the API as a whole. The list of values describes alternative security schemes that can be used (that is, there is a logical OR between the security requirements). Individual operations can override this definition.
         $this->tags = new ArrayList([], function ($item) { return $item instanceof Tag; });
-        $this->externalDocs = new ExternalDocumentation();
     }
 
 
@@ -102,6 +101,9 @@ class Specification implements \JsonSerializable
     {
         $properties = [];
         foreach ($this as $k => $p) {
+            if ($p === null) {
+                continue;
+            }
             $properties[$k] = $p;
         }
         return $properties;

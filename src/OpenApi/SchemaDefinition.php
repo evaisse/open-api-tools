@@ -10,13 +10,19 @@ namespace OpenApi;
  * Class SchemaDefinition
  * @package OpenApi
  */
-class SchemaDefinition extends \ArrayObject implements \JsonSerializable
+class SchemaDefinition extends \ArrayObject implements \JsonSerializable, SchemaInterface
 {
 
     /**
      * @var string name
      */
     protected $name;
+
+    /**
+     * @var SchemaReference
+     */
+    protected $ref;
+
 
     /**
      * @param string     $name
@@ -26,6 +32,8 @@ class SchemaDefinition extends \ArrayObject implements \JsonSerializable
     {
         $this->name = $name;
         parent::__construct($value);
+        $this->ref = new SchemaReference($this);
+        SchemaValidation::validateJsonSchema($value);
     }
 
     /**
@@ -41,15 +49,15 @@ class SchemaDefinition extends \ArrayObject implements \JsonSerializable
      */
     public function getRefLink()
     {
-        return "#/definitions/{$this->getName()}";
+        return $this->ref->getLink();
     }
 
     /**
-     * @return array
+     * @return SchemaReference
      */
     public function asRef()
     {
-        return ['$ref' => $this->getRefLink()];
+        return $this->ref;
     }
 
     /**
@@ -57,6 +65,9 @@ class SchemaDefinition extends \ArrayObject implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->getArrayCopy();
+        $schema = $this->getArrayCopy();
+        // remove $schema prop since it's a non available prop for definitions
+        unset($schema['$schema']);
+        return $schema;
     }
 }

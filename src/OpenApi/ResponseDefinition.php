@@ -10,7 +10,7 @@ namespace OpenApi;
  * Class ResponseDefinition
  * @package OpenApi
  */
-class ResponseDefinition implements \JsonSerializable
+class ResponseDefinition implements \JsonSerializable, Referenceable
 {
 
     /**
@@ -52,7 +52,7 @@ class ResponseDefinition implements \JsonSerializable
      */
     function __construct($statusCode, $description, SchemaDefinition $schema, $headers = [], $examples = [])
     {
-        $this->name = $this->statusCode = $statusCode;
+        $this->name = $this->statusCode = (string)$statusCode;
         $this->description = $description;
         $this->schema = $schema;
         $this->headers = new ResponseHeaders($headers);
@@ -92,6 +92,12 @@ class ResponseDefinition implements \JsonSerializable
     }
 
 
-
+    /**
+     * @return SchemaReference
+     */
+    public function asRef()
+    {
+        return new SchemaReference($this->getName());
+    }
 
 }

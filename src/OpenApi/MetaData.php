@@ -163,6 +163,8 @@ class MetaData implements \JsonSerializable
         foreach ($this as $k => $p) {
             $properties[$k] = $p;
         }
+        $properties['version'] = (string)$properties['version'];
+
         return $properties;
     }
 

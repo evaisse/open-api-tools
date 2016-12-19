@@ -6,6 +6,7 @@
  */
 namespace OpenApi;
 
+
 /**
  * Class ResponseHeaders
  * @package OpenApi
@@ -64,7 +65,7 @@ class ResponseHeaders implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->items;
+        return !empty($this->items) ? $this->items : new \stdClass();
     }
 
 }

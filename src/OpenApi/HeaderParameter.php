@@ -13,4 +13,9 @@ namespace OpenApi;
 class HeaderParameter extends StandardParameter
 {
 
+    /**
+     * {@inheritDoc}
+     */
+    protected $in = "header";
+
 }

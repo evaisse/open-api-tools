@@ -53,7 +53,7 @@ class ResponsesDefinitionsCollection implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->items;
+        return empty($this->items) ? (object)$this->items : $this->items;
     }
 
 }
