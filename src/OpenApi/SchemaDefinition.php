@@ -68,6 +68,21 @@ class SchemaDefinition extends \ArrayObject implements \JsonSerializable, Schema
         $schema = $this->getArrayCopy();
         // remove $schema prop since it's a non available prop for definitions
         unset($schema['$schema']);
+        $this->cleanUpProperties($schema);
         return $schema;
+    }
+
+
+    /**
+     *
+     */
+    public function cleanUpProperties(array &$schema)
+    {
+        if (is_array($schema) && isset($schema['type']) && $schema['type'] == "object") {
+            foreach ($schema['properties'] as &$p) {
+                unset($p['name']);
+                $this->cleanUpProperties($p);
+            }
+        }
     }
 }
