@@ -38,7 +38,9 @@ abstract class Parameter implements \JsonSerializable
     {
         $this->name = $name;
         foreach ($params as $k => $v) {
-            $this->{"set$k"}($v);
+            if (method_exists($this, "set$k")) {
+                $this->{"set$k"}($v);
+            }
         }
     }
 
