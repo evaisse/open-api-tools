@@ -117,6 +117,21 @@ class Header implements \JsonSerializable
      */
     protected $multipleOf;
 
+
+    /**
+     * @param string $name
+     * @param array  $params
+     */
+    public function __construct($name, array $params = [])
+    {
+        $this->name = $name;
+        foreach ($params as $k => $v) {
+            if (method_exists($this, "set$k")) {
+                $this->{"set$k"}($v);
+            }
+        }
+    }
+
     /**
      * @return array
      */
@@ -128,6 +143,7 @@ class Header implements \JsonSerializable
                 $props[$k] = $v;
             }
         }
+        unset($props['name']);
         return $props;
     }
 

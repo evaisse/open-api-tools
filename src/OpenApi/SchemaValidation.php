@@ -6,8 +6,8 @@
  */
 namespace OpenApi;
 
-use League\JsonGuard\Dereferencer;
 use League\JsonGuard\Validator;
+use League\JsonReference\Dereferencer;
 
 /**
  * Class SchemaValidation
@@ -65,7 +65,7 @@ class SchemaValidation
     {
         $src = md5(serialize($srcOrSchema));
         if (empty(self::$compiled[$src])) {
-            $deref = new Dereferencer(json_encode($srcOrSchema));
+            $deref = new Dereferencer();
             self::$compiled[$src] = $deref->dereference($srcOrSchema);
         }
         return self::$compiled[$src];

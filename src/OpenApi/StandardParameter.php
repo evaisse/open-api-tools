@@ -91,6 +91,8 @@ abstract class StandardParameter extends Parameter
      */
     protected $multipleOf;
 
+
+
     /**
      * @return number
      */
@@ -421,6 +423,8 @@ abstract class StandardParameter extends Parameter
         if ($s['type'] != "array") {
             unset($s['items']);
         }
+
+        unset($s['name']);
 
         return $s;
     }
